@@ -3,13 +3,14 @@ module Banner
     SQL_ALL = "SELECT * FROM bpv_current_employees WHERE employee = 'Y'"
     SQL_ONE = "SELECT * FROM bpv_current_employees WHERE employee = 'Y' AND id = :1"
 
-    ATTRS = ATTRS + [:pay_type, :department, :title, :office_phone, :full_time, :employee_type]
+    ATTRS = ATTRS + [:pay_type, :department, :title, :office_phone, :job_ct, :full_time, :employee_type]
 
     default_readers({
       pay_type:       :PAYID,
       department:     :ORG_DESC,
       title:          :TITLE,
-      office_phone:   :DIR_EXT
+      office_phone:   :DIR_EXT,
+      job_ct:         :JOB_CT
 
       # TODO: Not sure what to do with the commented out columns below
       #employee_type: :EMP_TYPE, # not used (I think)

@@ -34,5 +34,9 @@ require 'spec_helper'
       let(:params) { {full_time: true} }
       its(:full_time) { should eql true }
     end
+    describe '#job_ct' do
+      let(:params) { {JOB_CT: 1} }
+      its(:job_ct) { should eql 1 }
+    end
   end
 end
