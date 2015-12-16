@@ -2,7 +2,6 @@ module Workers
   module Groups
     class ClassLevel
       include Sidekiq::Worker
-      include Sidetiq::Schedulable
 
       CLASS_LEVELS = {
         Freshman:   'FR',
@@ -10,10 +9,6 @@ module Workers
         Junior:     'JR',
         Senior:     'SR'
       }
-
-      recurrence do
-        daily
-      end
 
       def perform
         CLASS_LEVELS.each do |group, col_value|

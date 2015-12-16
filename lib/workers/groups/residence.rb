@@ -2,11 +2,6 @@ module Workers
   module Groups
     class Residence
       include Sidekiq::Worker
-      include Sidetiq::Schedulable
-
-      recurrence do
-        weekly
-      end
 
       def perform
         Group.all.each do |group|

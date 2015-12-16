@@ -1,15 +1,10 @@
 require 'sidekiq'
-require 'sidekiq/exception_handler' # remove in sidetiq > 0.5.0
-require 'sidetiq'
+require 'sidekiq-cron'
 
 module Workers
   module Affiliations
     class Base
       include Sidekiq::Worker
-      include Sidetiq::Schedulable
-
-      WORKDAYS = [:monday, :tuesday, :wednesday, :thursday, :friday]
-      WORK_HOURS = (8..17).to_a
 
       def initialize
         if self.class == Workers::Affiliations::Base

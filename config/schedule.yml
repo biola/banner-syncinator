@@ -1,0 +1,70 @@
+##############################
+####### Affiliations #########
+##############################
+AcceptedStudents:
+  cron: "0 08-17 * * 1-5"
+  class: "Workers::Affiliations::AcceptedStudents"
+  queue: default
+
+Alumni:
+  cron: "0 8 * * 1"
+  class: "Workers::Affiliations::Alumni"
+  queue: default
+
+Employees:
+  cron: "0 08-17 * * 1-5"
+  class: "Workers::Affiliations::Employees"
+  queue: default
+
+Faculty:
+  cron: "0 08-17 * * 1-5"
+  class: "Workers::Affiliations::Faculty"
+  queue: default
+
+StudentWorkers:
+  cron: "0 08-17 * * 1-5"
+  class: "Workers::Affiliations::StudentWorkers"
+  queue: default
+
+Students:
+  cron: "0 08-20 * * 1-5"
+  class: "Workers::Affiliations::Students"
+  queue: default
+
+Trustees:
+  cron: "0 8 * * *"
+  class: "Workers::Affiliations::Trustees"
+  queue: default
+
+Volunteers:
+  cron: "0 8 * * *"
+  class: "Workers::Affiliations::Volunteers"
+  queue: default
+
+##############################
+########## Groups ############
+##############################
+
+ClassLevel:
+  cron: "0 8 * * *"
+  class: "Workers::Groups::ClassLevel"
+  queue: default
+
+International:
+  cron: "0 8 * * *"
+  class: "Workers::Groups::International"
+  queue: default
+
+Residence:
+  cron: "0 08 * * 1"
+  class: "Workers::Groups::Residence"
+  queue: default
+
+##############################
+########## Changes ###########
+##############################
+
+HandleChanges:
+  cron: "0 08-20 * * 1-5"
+  class: "Workers::HandleChanges"
+  queue: default

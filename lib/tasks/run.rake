@@ -3,7 +3,7 @@ namespace :run do
   task(:nowish) do
     require './lib/banner_syncinator'
     require 'sidekiq'
-    require 'sidetiq'
+    require 'sidekiq-cron'
 
     BannerSyncinator.initialize!
 

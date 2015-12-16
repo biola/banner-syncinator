@@ -1,6 +1,8 @@
 language: ruby
 rvm:
-  - 2.1.4
+  - 2.1.6
+services:
+  - redis-server
 script: bundle exec rspec
 # skip ruby-oci8 since it can't be installed on Travis
 bundler_args: --without development staging production

@@ -6,7 +6,7 @@ gem 'oj'
 gem 'rails_config'
 gem 'rake'
 gem 'sidekiq'
-gem 'sidetiq'
+gem 'sidekiq-cron'
 gem 'trogdir_api_client'
 gem 'weary', github: 'biola/weary', branch: 'preserve_empty_params'
 

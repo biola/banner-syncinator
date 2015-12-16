@@ -42,7 +42,7 @@ Basic Workflow
 --------------
 
 ### Affiliations
-1. Scheduled [sidetiq](https://github.com/tobiassvn/sidetiq) workers in `lib/workers/affiliations` kick of the process.
+1. Scheduled [sidekiq-cron](https://github.com/ondrejbartas/sidekiq-cron) workers in `lib/workers/affiliations` kick of the process.
 2. They call `PeopleSynchronizer.new(affiliation).sync!`
 3. `PeopleSynchronizer` finds changes via `PersonCollectionComparer` and calls `PersonSynchronizer` for each changed person.
 4. `PersonSynchronizer` makes changes via [`Trogdir::APIClient`](https://github.com/biola/trogdir-api-client).
@@ -50,6 +50,6 @@ Basic Workflow
 _Note: `PersonCollectionComparer` uses classes in `lib/banner/affiliations` and `lib/trogdir/affiliations` to compare attributes between person records._
 
 ### Groups
-1. Scheduled [sidetiq](https://github.com/tobiassvn/sidetiq) workers in `lib/workers/groups` kick of the process.
+1. Scheduled [sidekiq-cron](https://github.com/ondrejbartas/sidekiq-cron) workers in `lib/workers/groups` kick of the process.
 2. They call `GroupSynchronizer` with group and SQL arguments.
 4. `GroupSynchronizer` makes changes via [`Trogdir::APIClient`](https://github.com/biola/trogdir-api-client).
