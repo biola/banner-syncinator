@@ -8,7 +8,7 @@ module Trogdir
       employee_type:  :employee_type,
       department:     :department,
       title:          :title,
-      job_ct:         :JOB_CT
+      job_ct:         :job_ct
     })
 
     def office_phone
