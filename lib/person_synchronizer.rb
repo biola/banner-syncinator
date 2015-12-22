@@ -38,7 +38,7 @@ class PersonSynchronizer
   PERSON_ATTRS = [
     :last_name, :first_name, :middle_name, :preferred_name,
     :gender, :partial_ssn, :birth_date, :privacy,
-    :pay_type, :full_time, :employee_type, :department, :title,
+    :pay_type, :full_time, :employee_type, :department, :title, :job_ct,
     :majors, :minors, :mailbox
   ]
 

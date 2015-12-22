@@ -1,13 +1,14 @@
 module Trogdir
   class Employee < Trogdir::Person
-    ATTRS = superclass::ATTRS + [:pay_type, :department, :title, :office_phone, :full_time, :employee_type]
+    ATTRS = superclass::ATTRS + [:pay_type, :department, :title, :office_phone, :job_ct, :full_time, :employee_type]
 
     default_readers({
       pay_type:       :pay_type,
       full_time:      :full_time,
       employee_type:  :employee_type,
       department:     :department,
-      title:          :title
+      title:          :title,
+      job_ct:         :job_ct
     })
 
     def office_phone

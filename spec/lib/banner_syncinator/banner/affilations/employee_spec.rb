@@ -49,5 +49,10 @@ require 'spec_helper'
         it { expect(employee.attributes[:full_time]).to eql false }
       end
     end
+    describe '#job_ct' do
+      let(:params) { {JOB_CT: 1} }
+      its(:job_ct) { should eql 1 }
+      it { expect(employee.attributes[:job_ct]).to eql 1 }
+    end
   end
 end
