@@ -49,10 +49,31 @@ require 'spec_helper'
         it { expect(employee.attributes[:full_time]).to eql false }
       end
     end
+
     describe '#job_ct' do
-      let(:params) { {JOB_CT: 1} }
-      its(:job_ct) { should eql 1 }
-      it { expect(employee.attributes[:job_ct]).to eql 1 }
+      context "when '1'" do
+        let(:params) { {JOB_CT: '1'} }
+        its(:job_ct) { should eql 1 }
+        it { expect(employee.attributes[:job_ct]).to eql 1 }
+      end
+
+      context "when 1" do
+        let(:params) { {JOB_CT: 1} }
+        its(:job_ct) { should eql 1 }
+        it { expect(employee.attributes[:job_ct]).to eql 1 }
+      end
+
+      context "when 0" do
+        let(:params) { {JOB_CT: 0} }
+        its(:job_ct) { should eql 0 }
+        it { expect(employee.attributes[:job_ct]).to eql 0 }
+      end
+
+      context "when nil" do
+        let(:params) { {JOB_CT: nil} }
+        its(:job_ct) { should eql nil }
+        it { expect(employee.attributes[:job_ct]).to eql nil }
+      end
     end
   end
 end

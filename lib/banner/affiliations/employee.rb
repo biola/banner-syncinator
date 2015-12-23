@@ -9,8 +9,7 @@ module Banner
       pay_type:       :PAYID,
       department:     :ORG_DESC,
       title:          :TITLE,
-      office_phone:   :DIR_EXT,
-      job_ct:         :JOB_CT
+      office_phone:   :DIR_EXT
 
       # TODO: Not sure what to do with the commented out columns below
       #employee_type: :EMP_TYPE, # not used (I think)
@@ -19,6 +18,10 @@ module Banner
       #fac_type:      :FAC_TYPE,
       #alt_ext:       :ALT_EXT # TODO: create new "alternate office phone" or something type
     })
+
+    def job_ct
+      raw_attributes[:JOB_CT].try :to_i
+    end
 
     def full_time
       raw_attributes[:FT_PT] == 'F'
