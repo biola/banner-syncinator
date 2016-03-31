@@ -139,7 +139,7 @@ class PersonSynchronizer
       if response.successful?
         Log.info "#{method_name} #{klass_name} #{id} with #{attributes}"
       else
-        Log.error "Error on #{method_name} #{klass_name} #{id}: #{json}"
+        Log.error "Error on #{method_name} #{klass_name} #{id}: #{json} with #{attributes}"
       end
 
       json
