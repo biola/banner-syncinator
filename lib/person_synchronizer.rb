@@ -139,7 +139,8 @@ class PersonSynchronizer
       if response.successful?
         Log.info "#{method_name} #{klass_name} #{id} with #{attributes}"
       else
-        Log.error "Error on #{method_name} #{klass_name} #{id}: #{json} with #{attributes}"
+        Log.error "Error on #{method_name} #{klass_name} #{id}: ATTRIBUTES = #{attributes} RESPONSE = #{json}
+          OLD_PERSON = #{old_person.attributes} NEW_PERSON = #{new_person.attributes}"
       end
 
       json
