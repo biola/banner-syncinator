@@ -27,6 +27,7 @@ class PeopleSynchronizer
   end
 
   def comparer
+    # Returns an array of PersonChanges for each person that was added, updated, or removed.
     @comparer ||= PersonCollectionComparer.new(trogdir_people, banner_people, affiliation)
   end
 end

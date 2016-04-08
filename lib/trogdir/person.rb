@@ -68,12 +68,19 @@ module Trogdir
     end
 
     def self.find(biola_id)
-      person_hash = Trogdir::Client.people :by_id, id: biola_id, type: :biola_id
+      # Weary::Request
+      request = Trogdir::APIClient::People.new.send(:by_id, id: biola_id, type: :biola_id)
+      # Weary::Response
+      response = request.perform
 
-      if person_hash.blank?
+      if response.success?
+        new(JSON.parse(response.body, symbolize_names: true))
+      elsif response.status == 404
         NullPerson.new(self)
       else
-        new(person_hash)
+        Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.find
+          METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} ERROR=#{response.body}"
+        nil
       end
     end
 

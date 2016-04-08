@@ -154,6 +154,7 @@ class PersonSynchronizer
     new_attrs.slice(*PERSON_ATTRS).merge(affiliations: affiliations)
   end
 
+  # Return an array of only the attributes shared between both old_person and new_person
   def common_attrs
     @common_attrs ||= old_person.attributes.keys & new_person.attributes.keys
   end
@@ -166,6 +167,8 @@ class PersonSynchronizer
     @new_attrs ||= new_person.attributes.slice(*common_attrs)
   end
 
+  # This returns true if all the values in old_attrs for the given attributes are blank AND
+  # there are any present values in new_attrs for the given attributes
   def new?(*attributes)
     attributes.flatten!
     old_attrs.slice(*attributes).values.all?(&:blank?) && new_attrs.slice(*attributes).values.any?(&:present?)
