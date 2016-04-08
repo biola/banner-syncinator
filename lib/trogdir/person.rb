@@ -85,10 +85,20 @@ module Trogdir
     end
 
     def self.collection
-      person_hashes = Trogdir::Client.people :index, affiliation: affiliation.name
-      people = person_hashes.map { |h| new(h) }
+      # Weary::Request
+      request = Trogdir::APIClient::People.new.send(:index, affiliation: affiliation.name)
+      # Weary::Response
+      response = request.perform
 
-      PersonCollection.new people
+      if response.success?
+        person_hashes = JSON.parse(response.body, symbolize_names: true)
+        people = person_hashes.map { |h| new(h) }
+        PersonCollection.new people
+      else
+        Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.collection
+          METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} ERROR=#{response.body}"
+        nil
+      end
     end
 
     private
