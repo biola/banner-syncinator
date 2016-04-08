@@ -78,8 +78,7 @@ module Trogdir
       elsif response.status == 404
         NullPerson.new(self)
       else
-        Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.find
-          METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} ERROR=#{response.body}"
+        Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.find METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} BODY=#{response.body}"
         nil
       end
     end
@@ -95,8 +94,7 @@ module Trogdir
         people = person_hashes.map { |h| new(h) }
         PersonCollection.new people
       else
-        Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.collection
-          METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} ERROR=#{response.body}"
+        Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.collection METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} BODY=#{response.body}"
         nil
       end
     end

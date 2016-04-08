@@ -1,5 +1,4 @@
 module Trogdir
-  require './lib/trogdir/client'
   require './lib/trogdir/person'
   require './lib/trogdir/affiliations/accepted_student'
   require './lib/trogdir/affiliations/alumnus'

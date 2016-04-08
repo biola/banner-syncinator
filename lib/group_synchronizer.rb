@@ -10,21 +10,32 @@ class GroupSynchronizer
   def call
     Log.info "Begin sync of #{group} group"
 
-    (banner_people - trogdir_people).each do |person|
-      update :add, person
-    end
+    trogdir_people = get_trogdir_people_by_group
+    banner_people = get_banner_people_by_group
 
-    (trogdir_people - banner_people).each do |person|
-      update :remove, person
-    end
+    if banner_people.nil? # this doesn't work yet, I don't know what banner returns on fail
+      Log.error "Could not finish #{group} group sync. There was a problem connecting to Banner."
+    elsif trogdir_people.nil?
+      Log.error "Could not finish #{group} group sync. There was a problem connecting to TrogdirAPI."
+    else
 
-    Log.info "Finished syncing of #{group} group"
+      (banner_people - trogdir_people).each do |person|
+        update :add, person
+      end
+
+      (trogdir_people - banner_people).each do |person|
+        update :remove, person
+      end
+
+      Log.info "Finished syncing of #{group} group"
+
+    end
   end
 
   private
 
-  def banner_people
-    @banner_people ||= [].tap do |people|
+  def get_banner_people_by_group
+    [].tap do |people|
       Banner::DB.exec(sql) do |row|
         col ||= row.keys.first
         people << Banner::Person.new(PIDM: row[col])
@@ -32,20 +43,34 @@ class GroupSynchronizer
     end
   end
 
-  def trogdir_people
-    @trogdir_people ||= Trogdir::Client.groups(:people, group: group).map do |hash|
-      Trogdir::Person.new(hash)
+  def get_trogdir_people_by_group
+    # Weary::Request
+    request = Trogdir::APIClient::Groups.new.send(:people, group: group)
+    # Weary::Response
+    response = request.perform
+
+    if response.success?
+      person_hashes = JSON.parse(response.body, symbolize_names: true)
+      person_hashes.map { |h| Trogdir::Person.new(h) }
+    else
+      Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#get_trogdir_people_by_group METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} BODY=#{response.body}"
+      nil
     end
   end
 
   def update(method, person)
-    response = Trogdir::Client.groups(method, group: group, identifier: person.banner_id.to_s, type: 'banner')
+    # Weary::Request
+    request = Trogdir::APIClient::Groups.new.send(method, group: group, identifier: person.banner_id.to_s, type: 'banner')
+    # Weary::Response
+    response = request.perform
+    response_body = JSON.parse(response.body, symbolize_names: true)
 
     message = "#{method.to_s.titleize} user with PIDM #{person.banner_id} to #{group} group"
-    if response && response[:result] == true
+
+    if response.success? && response_body[:result] == true
       Log.info message
     else
-      Log.error "Unable to #{message}"
+      Log.error "Unable to #{message} in #{__FILE__}#update METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} BODY=#{response.body}"
     end
   end
 end

@@ -13,7 +13,7 @@ class PeopleSynchronizer
     banner_people = affiliation.banner_person.collection
     trogdir_people = affiliation.trogdir_person.collection
 
-    if banner_people.nil?
+    if banner_people.nil? # this doesn't work yet, I don't know what banner returns on fail
       Log.error "Could not finish sync. There was a problem connecting to Banner."
     elsif trogdir_people.nil?
       Log.error "Could not finish sync. There was a problem connecting to TrogdirAPI."
