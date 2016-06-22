@@ -11,7 +11,7 @@ gem 'trogdir_api_client', '~> 0.5.0'
 gem 'weary', github: 'biola/weary', branch: 'preserve_empty_params'
 
 group :development, :staging, :production do
-  gem 'ruby-oci8', '~> 2.1.7'
+  gem 'ruby-oci8', '~> 2.2.2'
 end
 
 group :development, :test do
