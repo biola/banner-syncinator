@@ -17,6 +17,12 @@ describe Banner::Person do
     it{ expect(person.biola_id).to eql 1234567 }
   end
 
+  describe '#banner_udcid' do
+    let(:params) { {UDCID: '12345678910'} }
+    its(:banner_udcid) { should eql '12345678910' }
+    it{ expect(person.banner_udcid).to eql '12345678910' }
+  end
+
   describe '#last_name' do
     let(:params) { {LNAME: 'Z'} }
     its(:last_name) { should eql 'Z' }

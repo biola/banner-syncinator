@@ -12,7 +12,7 @@ class PersonSynchronizer
     action = change_person!
 
     unless action == :destroy
-      {banner: :banner_id, biola_id: :biola_id}.each do |type, att|
+      {banner: :banner_id, biola_id: :biola_id, banner_udcid: :banner_udcid}.each do |type, att|
         change_id! type, att
       end
 

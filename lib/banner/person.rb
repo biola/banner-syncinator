@@ -2,6 +2,7 @@ module Banner
   class Person < ::Person
     default_readers({
       banner_id:        :PIDM,
+      banner_udcid:     :UDCID,
       last_name:        :LNAME,
       first_name:       :FNAME,
       middle_name:      :MNAME,

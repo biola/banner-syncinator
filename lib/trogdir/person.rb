@@ -7,7 +7,7 @@ module Trogdir
       :partial_ssn, :birth_date, :country, :personal_email,
 
       # IDs needed to do updates and destroys against the Trogdir API
-      :banner_id_id, :biola_id_id, :address_id, :personal_email_id
+      :banner_id_id, :biola_id_id, :banner_udcid_id, :address_id, :personal_email_id
     ]
 
     default_readers({
@@ -26,6 +26,10 @@ module Trogdir
 
     def biola_id
       find(:ids, :biola_id)[:identifier].try :to_i
+    end
+
+    def banner_udcid
+      find(:ids, :banner_udcid)[:identifier]
     end
 
     def gender
@@ -57,6 +61,10 @@ module Trogdir
 
     def biola_id_id
       find(:ids, :biola_id)[:id]
+    end
+
+    def banner_udcid_id
+      find(:ids, :banner_udcid)[:id]
     end
 
     def address_id

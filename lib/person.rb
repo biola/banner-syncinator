@@ -1,7 +1,7 @@
 class Person
   # Attributes that are common to all types of people
   ATTRS = [
-    :banner_id, :biola_id,
+    :banner_id, :biola_id, :banner_udcid,
     :last_name, :first_name, :middle_name, :preferred_name,
     :gender, :privacy,
     :street_1, :street_2, :city, :state, :zip

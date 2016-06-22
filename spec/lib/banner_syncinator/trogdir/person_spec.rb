@@ -19,6 +19,11 @@ describe Trogdir::Person do
     its(:biola_id) { should eql 1234567 }
   end
 
+  describe '#banner_udcid' do
+    let(:params) { {ids: [{type: "banner_udcid", identifier: "12345678910"}]} }
+    its(:banner_udcid) { should eql "12345678910" }
+  end
+
   describe '#last_name' do
     let(:params) { {last_name: 'Cheat'} }
     its(:last_name) { should eql 'Cheat' }
@@ -133,6 +138,11 @@ describe Trogdir::Person do
   describe '#biola_id_id' do
     let(:params) { {ids: [{type: 'biola_id', id: 2}]} }
     its(:biola_id_id) { should eql 2 }
+  end
+
+  describe '#banner_udcid_id' do
+    let(:params) { {ids: [{type: 'banner_udcid', id: 2}]} }
+    its(:banner_udcid_id) { should eql 2 }
   end
 
   describe '#address_id' do
