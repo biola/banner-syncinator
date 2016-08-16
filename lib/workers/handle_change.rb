@@ -11,10 +11,10 @@ module Workers
       action = :skip
 
       begin
-        # TODO: handle netid changes
-        if change.netid_creation?
+        if change.netid_creation? || change.netid_update?
           person = Trogdir::APIClient::People.new.show(uuid: change.person_uuid).perform.parse
           pidm = person['ids'].find { |id| id['type'] == 'banner' }.try(:[], 'identifier').try(:to_i)
+
           if pidm.present?
             conn = Banner::DB.connection
             cursor = conn.parse 'BEGIN :return_value := BANINST1.BGF_INSERT_GOBTPAC(:pidm); END;'

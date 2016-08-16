@@ -21,6 +21,10 @@ class TrogdirChange
     id? && create? && modified['type'] == 'netid'
   end
 
+  def netid_update?
+    id? && update? && modified['type'] == 'netid'
+  end
+
   private
 
   def id?
@@ -29,6 +33,10 @@ class TrogdirChange
 
   def create?
     hash['action'] == 'create'
+  end
+
+  def update?
+    hash['action'] == 'update'
   end
 
   def modified
