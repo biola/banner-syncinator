@@ -17,6 +17,14 @@ class TrogdirChange
     modified['identifier']
   end
 
+  def event
+    return :netid_creation if netid_creation?
+    return :netid_update if netid_update?
+    return :employee_termination if employee_termination?
+  end
+
+  private
+
   def netid_creation?
     id? && create? && modified['type'] == 'netid'
   end
@@ -25,10 +33,17 @@ class TrogdirChange
     id? && update? && modified['type'] == 'netid'
   end
 
-  private
+  def employee_termination?
+    removed = Array(original['affiliations']) - Array(modified['affiliations'])
+    removed.include? "employee"
+  end
 
   def id?
     hash['scope'] == 'id'
+  end
+
+  def affiliation_change?
+    modified.key? 'affiliations'
   end
 
   def create?
@@ -41,5 +56,9 @@ class TrogdirChange
 
   def modified
     hash['modified']
+  end
+
+  def original
+    hash['original']
   end
 end
