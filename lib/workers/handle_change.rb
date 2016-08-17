@@ -44,7 +44,7 @@ module Workers
       end
     end
 
-    def remove_office_phones(conn, cursor)
+    def remove_office_phones
       with_banner_connection do |conn|
         conn.exec "UPDATE BGV_PHONES
                    SET PHONE_NUMBER = '', ACTIVITY_DATE = SYSDATE, STATUS_IND = 'I'
