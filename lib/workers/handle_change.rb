@@ -7,8 +7,8 @@ module Workers
     sidekiq_options retry: false
 
     def perform(change_hash)
-      change = TrogdirChange.new(change_hash)
-      person = Trogdir::APIClient::People.new.show(uuid: change.person_uuid).perform.parse
+      @change = TrogdirChange.new(change_hash)
+      @person = Trogdir::APIClient::People.new.show(uuid: change.person_uuid).perform.parse
       @pidm = person['ids'].find { |id| id['type'] == 'banner' }.try(:[], 'identifier').try(:to_i)
 
       unless pidm.present?
@@ -23,7 +23,7 @@ module Workers
 
     private
 
-    attr_reader :pidm
+    attr_reader :pidm, :person, :change
 
     def perform_change(change)
       case change.event
@@ -97,7 +97,7 @@ module Workers
       cursor.close
     end
 
-    def with_logging(action:,&block)
+    def with_logging(action:, &block)
       message = block.call
       Log.info message
       Workers::ChangeFinish.perform_async(change.sync_log_id, action)
