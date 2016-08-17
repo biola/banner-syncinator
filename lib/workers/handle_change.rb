@@ -27,7 +27,7 @@ module Workers
 
     def perform_change(change)
       case change.event
-      when :netid_creation || :netid_update
+      when :netid_creation, :netid_update
         with_logging(action: :create) do
           create_gobtpac_record
           message = "Writing NetID for person #{change.person_uuid}"
