@@ -9,11 +9,11 @@ module Workers
     def perform(change_hash)
       change = TrogdirChange.new(change_hash)
       person = Trogdir::APIClient::People.new.show(uuid: change.person_uuid).perform.parse
-      pidm = person['ids'].find { |id| id['type'] == 'banner' }.try(:[], 'identifier').try(:to_i)
+      @pidm = person['ids'].find { |id| id['type'] == 'banner' }.try(:[], 'identifier').try(:to_i)
 
       unless pidm.present?
         with_logging(action: :skip) do
-         message = "No pidm found for  #{change.person_uuid}"
+          message = "No pidm found for  #{change.person_uuid}"
         end
         return
       end
@@ -22,6 +22,8 @@ module Workers
     end
 
     private
+
+    attr_reader :pidm
 
     def perform_change(change)
       case change.event
