@@ -29,7 +29,7 @@ module Workers
       case change.event
       when :netid_creation, :netid_update
         with_logging(action: :create) do
-          create_gobtpac_record
+          create_and_update_gobtpac_record
           message = "Writing NetID for person #{change.person_uuid}"
         end
       when :employee_termination
@@ -55,7 +55,7 @@ module Workers
       end
     end
 
-    def create_gobtpac_record
+    def create_and_update_gobtpac_record
       with_banner_connection do |conn|
         sql = 'BEGIN :return_value := BANINST1.BGF_INSERT_GOBTPAC(:pidm); END;'
 
