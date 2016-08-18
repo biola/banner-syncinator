@@ -34,7 +34,7 @@ module Workers
         end
       when :employee_termination
         with_logging(action: :update) do
-          remove_office_phones
+          deactivate_office_phones
           message = "Updating Office Phone for person #{change.person_uuid}"
         end
       else
@@ -44,7 +44,7 @@ module Workers
       end
     end
 
-    def remove_office_phones
+    def deactivate_office_phones
       with_banner_connection do |conn|
         conn.exec "UPDATE BGV_PHONES
                    SET ACTIVITY_DATE = SYSDATE, STATUS_IND = 'I'
