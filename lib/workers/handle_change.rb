@@ -18,14 +18,14 @@ module Workers
         return
       end
 
-      perform_change(change)
+      perform_change
     end
 
     private
 
     attr_reader :pidm, :person, :change
 
-    def perform_change(change)
+    def perform_change
       case change.event
       when :netid_creation, :netid_update
         with_logging(action: :create) do
