@@ -7,5 +7,3 @@
 dump.rdb
 log/*.log
 .gitconfig
-*.sw[a-z]
-*.un~
