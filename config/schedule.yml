@@ -2,7 +2,7 @@
 ####### Affiliations #########
 ##############################
 AcceptedStudents:
-  cron: "30 08-20 * * 1-5"
+  cron: "30 * * * *"
   class: "Workers::Affiliations::AcceptedStudents"
   queue: default
 
@@ -27,7 +27,7 @@ StudentWorkers:
   queue: default
 
 Students:
-  cron: "0 08-20 * * 1-5"
+  cron: "0 * * * *"
   class: "Workers::Affiliations::Students"
   queue: default
 
