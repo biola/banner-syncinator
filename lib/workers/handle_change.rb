@@ -13,7 +13,7 @@ module Workers
 
       unless pidm.present?
         with_logging(action: :skip) do
-          message = "No pidm found for  #{change.person_uuid}"
+          "No pidm found for  #{change.person_uuid}"
         end
         return
       end
@@ -30,16 +30,16 @@ module Workers
       when :netid_creation, :netid_update
         with_logging(action: :create) do
           create_and_update_gobtpac_record
-          message = "Writing NetID for person #{change.person_uuid}"
+          "Writing NetID for person #{change.person_uuid}"
         end
       when :employee_termination
         with_logging(action: :update) do
           deactivate_office_phones
-          message = "Updating Office Phone for person #{change.person_uuid}"
+          "Updating Office Phone for person #{change.person_uuid}"
         end
       else
         with_logging(action: :skip) do
-          message = "No changes needed for person #{change.person_uuid}"
+          "No changes needed for person #{change.person_uuid}"
         end
       end
     end
