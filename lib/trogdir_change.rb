@@ -25,7 +25,7 @@ class TrogdirChange
 
   def event
     EVENTS.each do |e|
-      return event if self.send("#{e}?".to_sym)
+      return e if self.send("#{e}?".to_sym)
     end
     nil
   end
