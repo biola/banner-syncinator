@@ -1,6 +1,8 @@
 class TrogdirChange
   attr_reader :hash
 
+  EVENTS = :netid_creation, :netid_update, :employee_termination, :email_creation, :email_update
+
   def initialize(hash)
     @hash = hash
   end
@@ -13,24 +15,29 @@ class TrogdirChange
     hash['person_id']
   end
 
+  def email_address
+    modified['address']
+  end
+
   def netid
     modified['identifier']
   end
 
   def event
-    return :netid_creation if netid_creation?
-    return :netid_update if netid_update?
-    return :employee_termination if employee_termination?
+    EVENTS.each do |e|
+      return event if self.send("#{e}?".to_sym)
+    end
+    nil
   end
 
   private
 
   def netid_creation?
-    id? && create? && modified['type'] == 'netid'
+    scope == 'id'  && action == 'create'  && modified_type  == 'netid'
   end
 
   def netid_update?
-    id? && update? && modified['type'] == 'netid'
+    scope == 'id' && action == 'update' && modified_type  == 'netid'
   end
 
   def employee_termination?
@@ -38,24 +45,32 @@ class TrogdirChange
     removed.include? "employee"
   end
 
-  def id?
-    hash['scope'] == 'id'
+  def email_creation?
+    scope == 'email' && action == 'create' && modified_type  == 'university'
+  end
+
+  def email_update?
+    scope == 'email' && action == 'update' && modified_type  == 'university'
+  end
+
+  def scope
+    hash['scope']
+  end
+
+  def action
+    hash['action']
   end
 
   def affiliation_change?
     modified.key? 'affiliations'
   end
 
-  def create?
-    hash['action'] == 'create'
-  end
-
-  def update?
-    hash['action'] == 'update'
-  end
-
   def modified
     hash['modified']
+  end
+
+  def modified_type
+    modified['type']
   end
 
   def original

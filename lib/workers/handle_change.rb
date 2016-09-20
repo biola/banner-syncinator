@@ -12,9 +12,7 @@ module Workers
       @pidm = person['ids'].find { |id| id['type'] == 'banner' }.try(:[], 'identifier').try(:to_i)
 
       unless pidm.present?
-        with_logging(action: :skip) do
-          "No pidm found for  #{change.person_uuid}"
-        end
+        skip("No pidm found for  #{change.person_uuid}")
         return
       end
 
@@ -26,22 +24,97 @@ module Workers
     attr_reader :pidm, :person, :change
 
     def perform_change
-      case change.event
-      when :netid_creation, :netid_update
-        with_logging(action: :create) do
-          create_and_update_gobtpac_record
-          "Writing NetID for person #{change.person_uuid}"
-        end
-      when :employee_termination
-        with_logging(action: :update) do
-          deactivate_office_phones
-          "Updating Office Phone for person #{change.person_uuid}"
-        end
-      else
-        with_logging(action: :skip) do
-          "No changes needed for person #{change.person_uuid}"
-        end
+      self.send(change.event || :skip)
+    end
+
+    def netid_creation
+      with_logging(action: :create) do
+        create_and_update_gobtpac_record
+        "Writing NetID for person #{change.person_uuid}"
       end
+    end
+    alias_method :netid_update, :netid_creation
+
+    def employee_termination
+      with_logging(action: :update) do
+        deactivate_office_phones
+        "Updating Office Phone for person #{change.person_uuid}"
+      end
+    end
+
+    def email_creation
+      with_logging(action: :create) do
+        create_or_update_email_address
+        "Writing UNIV email address in Banner for person #{change.person_uuid}"
+      end
+    end
+    alias_method :email_update, :email_creation
+
+    def skip(message = nil)
+      with_logging(action: :skip) do
+        message || "No changes needed for person #{change.person_uuid}"
+      end
+    end
+
+    def create_or_update_email_address
+      if univ_email_exists?
+        update_goremal_record
+      else
+        create_goremal_record
+      end
+    end
+
+    def univ_email_exists?
+      with_banner_connection do |conn|
+        sql = "select 'Y' from goremal where goremal_pidm = :pidm and goremal_emal_code = 'UNIV'"
+        retval = using_cursor(statement: sql, connection: conn) do |cursor|
+          cursor.bind_param(':pidm', pidm, Integer)
+          cursor.bind_param(':return_value', nil, String)
+          cursor.exec
+          cursor[':return_value']
+        end
+        true if retval == 'Y'
+      end
+    end
+
+    def create_goremal_record
+      with_banner_connection do |conn|
+        sql = "INSERT INTO goremal (GOREMAL_PIDM, GOREMAL_EMAL_CODE, GOREMAL_EMAIL_ADDRESS,
+                                    GOREMAL_STATUS_IND, GOREMAL_PREFERRED_IND, GOREMAL_ACTIVITY_DATE,
+                                    GOREMAL_USER_ID, GOREMAL_DISP_WEB_IND, GOREMAL_DATA_ORIGIN)
+                            VALUES (:1, 'UNIV', :2, 'A', 'Y', sysdate, 'APPSJOB',
+                                    'Y', 'Trogdir')"
+        conn.exec(sql, pidm, change.email_address)
+        conn.commit
+      end
+
+      unprefer_non_univ_emails
+    end
+
+    def unprefer_non_univ_emails
+      with_banner_connection do |conn|
+        # unset preferred for non-UNIV email addresses
+        conn.exec "UPDATE GOREMAL
+                   SET GOREMAL_ACTIVITY_DATE = SYSDATE, GOREMAL_PREFERRED_IND = 'N'
+                   WHERE GOREMAL_EMAL_CODE != 'UNIV'
+                   AND PIDM = :1",
+                   pidm
+        conn.commit
+      end
+    end
+
+    def update_goremal_record
+      with_banner_connection do |conn|
+        conn.exec "UPDATE GOREMAL
+                   SET GOREMAL_EMAIL_ADRESS = :1, GOREMAL_ACTIVITY_DATE = SYSDATE,
+                   GOREMAL_PREFERRED_IND = 'Y', GOREMAL_STATUS_IND = 'A'
+                   WHERE GOREMAL_EMAL_CODE = 'UNIV'
+                   AND PIDM = :2",
+                   change.email_address, pidm
+        conn.commit
+      end
+
+      unprefer_non_univ_emails
     end
 
     def deactivate_office_phones
@@ -76,10 +149,14 @@ module Workers
                     WHERE GOBTPAC_PIDM = :2",
                     change.netid, pidm
 
-        conn.exec  "INSERT INTO GORPAUD (GORPAUD_PIDM, GORPAUD_ACTIVITY_DATE, GORPAUD_USER, GORPAUD_EXTERNAL_USER, GORPAUD_CHG_IND)
+        conn.exec  "INSERT INTO GORPAUD (GORPAUD_PIDM, GORPAUD_ACTIVITY_DATE, GORPAUD_USER,
+                    GORPAUD_EXTERNAL_USER, GORPAUD_CHG_IND)
                     VALUES (:1, SYSDATE, :2, :3, 'I')",
                     pidm, conn.username, change.netid
-        conn.commit # The inserted row is invisible from other connections unless the transaction is committed.
+
+        # The inserted row is invisible from other connections unless the transaction is committed.
+        #
+        conn.commit
       else
         raise BannerError, "Query failed: #{cursor[':return_value']}"
       end
@@ -87,14 +164,16 @@ module Workers
 
     def with_banner_connection(&block)
       conn = Banner::DB.connection
-      block.call(conn)
+      retval = block.call(conn)
       conn.logoff
+      retval
     end
 
     def using_cursor(statement:, connection:, &block)
       cursor = connection.parse(statement)
-      block.call(cursor)
+      retval = block.call(cursor)
       cursor.close
+      retval
     end
 
     def with_logging(action:, &block)
