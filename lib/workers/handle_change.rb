@@ -183,7 +183,7 @@ module Workers
     rescue StandardError => e
       Workers::ChangeError.perform_async(change.sync_log_id, e.message)
       Raven.capture_exception(e) if defined? Raven
-      raise err
+      raise e
     end
   end
 end
