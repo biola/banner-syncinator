@@ -181,7 +181,8 @@ module Workers
       Log.info message
       Workers::ChangeFinish.perform_async(change.sync_log_id, action)
     rescue StandardError => e
-      Workers::ChangeError.perform_async(change.sync_log_id, e.backtrace[0..3].join(','))
+      error_message = e.backtrace[0..4].shift(e.message).join(',')
+      Workers::ChangeError.perform_async(change.sync_log_id, error_message)
       Raven.capture_exception(e) if defined? Raven
       raise e
     end
