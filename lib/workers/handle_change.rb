@@ -97,11 +97,11 @@ module Workers
 
     def create_goremal_record
       with_banner_connection do |conn|
-        sql = "INSERT INTO goremal (GOREMAL_PIDM, GOREMAL_EMAL_CODE, GOREMAL_EMAIL_ADDRESS,
-                                    GOREMAL_STATUS_IND, GOREMAL_PREFERRED_IND, GOREMAL_ACTIVITY_DATE,
-                                    GOREMAL_USER_ID, GOREMAL_DISP_WEB_IND, GOREMAL_DATA_ORIGIN)
-                            VALUES (:1, 'UNIV', :2, 'A', 'Y', sysdate, 'APPSJOB',
-                                    'Y', 'Trogdir')"
+        sql = "INSERT INTO GOREMAL
+               (GOREMAL_PIDM, GOREMAL_EMAL_CODE, GOREMAL_EMAIL_ADDRESS,
+               GOREMAL_STATUS_IND, GOREMAL_PREFERRED_IND, GOREMAL_ACTIVITY_DATE,
+               GOREMAL_USER_ID, GOREMAL_DISP_WEB_IND, GOREMAL_DATA_ORIGIN)
+               VALUES (:1, 'UNIV', :2, 'A', 'Y', sysdate, 'APPSJOB', 'Y', 'Trogdir')"
         conn.exec(sql, pidm, change.email_address)
         conn.commit
       end
