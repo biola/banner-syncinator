@@ -117,7 +117,8 @@ module Workers
     def deactivate_office_phones
       with_banner_connection do |conn|
         conn.exec "UPDATE BGV_PHONES
-                   SET ACTIVITY_DATE = SYSDATE, STATUS_IND = 'I'
+                   SET ACTIVITY_DATE = SYSDATE, STATUS_IND = 'I',
+                   USER_ID = 'APPSJOB', DATA_ORIGIN = 'Trogdir'
                    WHERE TELE_CODE in ('OCM','OCE')
                    AND PIDM = :1",
                    pidm
