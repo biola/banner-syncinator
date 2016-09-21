@@ -54,7 +54,7 @@ class TrogdirChange
   end
 
   def email_destroy?
-    scope == 'email' && action == 'destroy' && modified_type == 'university'
+    scope == 'email' && action == 'destroy' && original_type == 'university'
   end
 
   def scope
@@ -75,6 +75,10 @@ class TrogdirChange
 
   def modified_type
     modified['type']
+  end
+
+  def original_type
+    original['type']
   end
 
   def original
