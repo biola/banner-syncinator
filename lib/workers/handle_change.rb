@@ -103,7 +103,7 @@ module Workers
     def update_goremal_record
       with_banner_connection do |conn|
         conn.exec "UPDATE GOREMAL
-                   SET GOREMAL_EMAIL_ADRESS = :1, GOREMAL_ACTIVITY_DATE = SYSDATE,
+                   SET GOREMAL_EMAIL_ADDRESS = :1, GOREMAL_ACTIVITY_DATE = SYSDATE,
                    GOREMAL_PREFERRED_IND = 'Y', GOREMAL_STATUS_IND = 'A'
                    WHERE GOREMAL_EMAL_CODE = 'UNIV'
                    AND GOREMAL_PIDM = :2",
