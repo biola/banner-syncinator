@@ -90,7 +90,7 @@ module Workers
         sql = "SELECT 'Y' FROM goremal WHERE goremal_pidm = :pidm
                AND goremal_emal_code = 'UNIV' AND goremal_status_ind = 'A'"
         cursor = conn.exec(sql, pidm)
-        retval = true if cursor.fetch.first == 'Y'
+        retval = true if Array(cursor.fetch).first == 'Y'
       end
       retval
     end
