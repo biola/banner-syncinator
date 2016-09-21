@@ -87,7 +87,8 @@ module Workers
     def univ_email_exists?
       retval = false
       with_banner_connection do |conn|
-        sql = "SELECT 'Y' FROM goremal WHERE goremal_pidm = :pidm AND goremal_emal_code = 'UNIV'"
+        sql = "SELECT 'Y' FROM goremal WHERE goremal_pidm = :pidm
+               AND goremal_emal_code = 'UNIV' AND goremal_status_ind = 'A'"
         cursor = conn.exec(sql, pidm)
         retval = true if cursor.fetch.first == 'Y'
       end
