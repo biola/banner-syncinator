@@ -94,7 +94,7 @@ module Workers
         conn.exec "UPDATE GOREMAL
                    SET GOREMAL_ACTIVITY_DATE = SYSDATE, GOREMAL_PREFERRED_IND = 'N'
                    WHERE GOREMAL_EMAL_CODE != 'UNIV'
-                   AND PIDM = :1",
+                   AND GOREMAL_PIDM = :1",
                    pidm
         conn.commit
       end
@@ -106,7 +106,7 @@ module Workers
                    SET GOREMAL_EMAIL_ADRESS = :1, GOREMAL_ACTIVITY_DATE = SYSDATE,
                    GOREMAL_PREFERRED_IND = 'Y', GOREMAL_STATUS_IND = 'A'
                    WHERE GOREMAL_EMAL_CODE = 'UNIV'
-                   AND PIDM = :2",
+                   AND GOREMAL_PIDM = :2",
                    change.email_address, pidm
         conn.commit
       end
