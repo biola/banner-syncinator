@@ -104,7 +104,8 @@ module Workers
       with_banner_connection do |conn|
         conn.exec "UPDATE GOREMAL
                    SET GOREMAL_EMAIL_ADDRESS = :1, GOREMAL_ACTIVITY_DATE = SYSDATE,
-                   GOREMAL_PREFERRED_IND = 'Y', GOREMAL_STATUS_IND = 'A'
+                   GOREMAL_PREFERRED_IND = 'Y', GOREMAL_STATUS_IND = 'A',
+                   GOREMAL_DATA_ORIGIN = 'Trogdir', GOREMAL_USER_ID = 'APPSJOB'
                    WHERE GOREMAL_EMAL_CODE = 'UNIV'
                    AND GOREMAL_PIDM = :2",
                    change.email_address, pidm
@@ -143,7 +144,8 @@ module Workers
     def update_gobtpac_netid(conn, cursor)
       if ['CREATED', 'EXISTS'].include? cursor[':return_value']
         conn.exec  "UPDATE GOBTPAC
-                    SET GOBTPAC_EXTERNAL_USER = :1, GOBTPAC_ACTIVITY_DATE = SYSDATE
+                    SET GOBTPAC_EXTERNAL_USER = :1, GOBTPAC_ACTIVITY_DATE = SYSDATE,
+                    GOBTPAC_USER = 'APPSJOB', GOBTPAC_DATA_ORIGIN = 'Trogdir'
                     WHERE GOBTPAC_PIDM = :2",
                     change.netid, pidm
 
