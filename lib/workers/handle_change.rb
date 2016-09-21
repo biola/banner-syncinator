@@ -162,16 +162,14 @@ module Workers
 
     def with_banner_connection(&block)
       conn = Banner::DB.connection
-      retval = block.call(conn)
+      block.call(conn)
       conn.logoff
-      retval
     end
 
     def using_cursor(statement:, connection:, &block)
       cursor = connection.parse(statement)
-      retval = block.call(cursor)
+      block.call(cursor)
       cursor.close
-      retval
     end
 
     def with_logging(action:, &block)
