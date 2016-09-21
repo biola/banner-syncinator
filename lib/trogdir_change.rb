@@ -1,7 +1,7 @@
 class TrogdirChange
   attr_reader :hash
 
-  EVENTS = :netid_creation, :netid_update, :employee_termination, :email_creation, :email_update
+  EVENTS = :netid_creation, :netid_update, :employee_termination, :email_creation, :email_update, :email_destroy
 
   def initialize(hash)
     @hash = hash
@@ -51,6 +51,10 @@ class TrogdirChange
 
   def email_update?
     scope == 'email' && action == 'update' && modified_type  == 'university'
+  end
+
+  def email_destroy?
+    scope == 'email' && action == 'destroy' && modified_type == 'university'
   end
 
   def scope

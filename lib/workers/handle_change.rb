@@ -50,6 +50,13 @@ module Workers
     end
     alias_method :email_update, :email_creation
 
+    def email_destroy
+      with_logging(action: :destroy) do
+        deactivate_univ_email
+        "Deactivating UNIV email address in Banner for person #{change.person_uuid}"
+      end
+    end
+
     def skip(message = nil)
       with_logging(action: :skip) do
         message || "No changes needed for person #{change.person_uuid}"
@@ -61,6 +68,19 @@ module Workers
         update_goremal_record
       else
         create_goremal_record
+      end
+    end
+
+    def deactivate_univ_email
+      with_banner_connection do |conn|
+        conn.exec "UPDATE GOREMAL
+                   SET GOREMAL_ACTIVITY_DATE = SYSDATE, GOREMAL_STATUS_IND = 'I',
+                   GOREMAL_PREFERRED_IND = 'N', GOREMAL_DATA_ORIGIN = 'Trogdir',
+                   GOREMAL_USER_ID = 'APPSJOB'
+                   WHERE GOREMAL_EMAL_CODE = 'UNIV'
+                   AND GOREMAL_PIDM = :1",
+                   pidm
+        conn.commit
       end
     end
 
