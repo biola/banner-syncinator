@@ -10,11 +10,9 @@ describe Workers::HandleChange do
     described_class.any_instance.stub(:change) { @null_object }
     described_class.any_instance.stub(:person) { @null_object }
     described_class.any_instance.stub(:pidm)
-    stub_const("Log", @null_object)
-    stub_const("Workers::ChangeFinish", @null_object)
-    stub_const("Workrers::ChangeError", @null_object)
-    stub_const("Raven", @null_object)
-    stub_const("Banner::DB", @null_object)
+    [ "Log", "Workers::ChangeFinish", "Workers::ChangeError", "Raven", "Banner::DB" ].each do |const|
+      stub_const(const, @null_object)
+    end
   end
 
   describe '#perform' do
