@@ -11,6 +11,14 @@ class PersonSynchronizer
   def call
     action = change_person!
 
+    # Employees are the only ones who have office phones.
+    # Delete office phone if person looses employee affiliation
+    if both_respond_to? :office_phone
+      change_phone! :office, :office_phone
+    end
+
+    # When a user looses affiliation, we want to skip updating the fields that are common
+    # to all people, because we wouldn't want to delete your biola_id for example.
     unless action == :destroy
       {banner: :banner_id, biola_id: :biola_id, banner_udcid: :banner_udcid}.each do |type, att|
         change_id! type, att
@@ -21,13 +29,6 @@ class PersonSynchronizer
       {personal: :personal_email}.each do |type, att|
         if both_respond_to? att
           change_email! type, att
-        end
-      end
-
-      # TODO: this should be alt office phone instead of home phone
-      {office: :office_phone, home: :home_phone}.each do |type, att|
-        if both_respond_to? att
-          change_phone! type, att
         end
       end
     end
