@@ -91,20 +91,16 @@ module Trogdir
       end
     end
 
+    #
+    # Returns a collection of all people matching the given affiliation
+    # from Trogdir.
+    #
+    # @return [PersonCollection,nil]
+    #   Will return nil if there was a problem connecting to TrogdirAPI
+    #
     def self.collection
-      # Weary::Request
-      request = Trogdir::APIClient::People.new.send(:index, affiliation: affiliation.name)
-      # Weary::Response
-      response = request.perform
-
-      if response.success?
-        person_hashes = JSON.parse(response.body, symbolize_names: true)
-        people = person_hashes.map { |h| new(h) }
-        PersonCollection.new people
-      else
-        Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.collection METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} BODY=#{response.body}"
-        nil
-      end
+      people = batch_request_people
+      PersonCollection.new(people) if people
     end
 
     private
@@ -117,6 +113,49 @@ module Trogdir
 
     def home_address
       @home_address ||= find(:addresses, :home)
+    end
+
+    #
+    # Request paginated list of people. When we weren't paginating the
+    # request would take too long and time out. This method handles
+    # making multiple paginated requests and returns a complete array of
+    # all the people for the given affiliation.
+    #
+    # @return [Array<Person>,nil]
+    #   Will return nil if one of the API requests was not successful.
+    #
+    def self.batch_request_people
+      all_people = []
+      page = 1
+      per_page = 1000
+
+      loop do
+        # Weary::Request
+        request =
+          Trogdir::APIClient::People.new.send(
+            :index,
+            affiliation: affiliation.name,
+            page: page,
+            per_page: per_page
+          )
+        # Weary::Response
+        response = request.perform
+
+        if response.success?
+          Log.debug "Success loading people from TrogdirAPI AFFILIATION:#{affiliation.name} PAGE:#{page}"
+          person_hashes = JSON.parse(response.body, symbolize_names: true)
+          people = person_hashes.map { |h| new(h) }
+          all_people += people
+          page += 1
+
+          # Keep looping until no more people are returned. Meaning we
+          # reached the last page +1.
+          return all_people if people.empty?
+        else
+          Log.error "There was a problem connecting to TrogdirAPI in #{__FILE__}#self.collection METHOD=#{request.method} URI=#{request.uri} STATUS=#{response.status} BODY=#{response.body}"
+          return nil
+        end
+      end
     end
   end
 end

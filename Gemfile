@@ -7,7 +7,9 @@ gem 'rails_config', '~> 0.3.3'
 gem 'rake', '~> 10.2.2'
 gem 'sidekiq', '~> 3.5.0'
 gem 'sidekiq-cron', '~> 0.3.1'
-gem 'trogdir_api_client', '~> 0.5.0'
+gem 'trogdir_api_client', '~> 0.7.0'
+# Until a new gem is released > 1.1.3
+# See: https://github.com/mwunsch/weary/pull/47
 gem 'weary', github: 'biola/weary', branch: 'preserve_empty_params'
 
 group :development, :staging, :production do
