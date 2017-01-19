@@ -41,6 +41,11 @@ Volunteers:
   class: "Workers::Affiliations::Volunteers"
   queue: default
 
+ResearchFellows:
+  cron: "0 5 * * *"
+  class: "Workers::Affiliations::ResearchFellows"
+  queue: default
+
 ##############################
 ########## Groups ############
 ##############################
