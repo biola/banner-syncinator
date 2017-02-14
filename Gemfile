@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'actionpack', '~> 3.2.22' # apparently needed by exception_notification
-gem 'blazing', '~> 0.4.1'
 gem 'oj', '~> 2.8.1'
 gem 'rails_config', '~> 0.3.3'
 gem 'rake', '~> 10.2.2'
