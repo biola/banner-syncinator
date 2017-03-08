@@ -53,7 +53,7 @@ module Workers
     def email_destroy
       with_logging(action: :destroy) do
         delete_univ_email
-        "Deleting UNIV email address in Banner for person #{change.person_uuid}"
+        "Deleting UNIV email address (#{change.email_address}) in Banner for person #{change.person_uuid}"
       end
     end
 
@@ -75,8 +75,9 @@ module Workers
       with_banner_connection do |conn|
         conn.exec "DELETE FROM GOREMAL
                    WHERE GOREMAL_EMAL_CODE = 'UNIV'
-                   AND GOREMAL_PIDM = :1",
-                   pidm
+                   AND GOREMAL_PIDM = :1
+                   AND GOREMAL_EMAIL_ADDRESS = :2",
+                   pidm, change.email_address
         conn.commit
       end
     end
