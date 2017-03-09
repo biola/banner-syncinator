@@ -77,7 +77,7 @@ module Workers
                    WHERE GOREMAL_EMAL_CODE = 'UNIV'
                    AND GOREMAL_PIDM = :1
                    AND GOREMAL_EMAIL_ADDRESS = :2",
-                   pidm, change.original_email_address
+                   pidm, change.original_email_address.to_s
         conn.commit
       end
     end
