@@ -16,7 +16,11 @@ class TrogdirChange
   end
 
   def email_address
-    modified['address']
+    modified['address'].to_s
+  end
+
+  def original_email_address
+    original['address'].to_s
   end
 
   def netid
