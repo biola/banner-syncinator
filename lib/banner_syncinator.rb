@@ -15,6 +15,7 @@ module BannerSyncinator
 
     ActiveSupport::Inflector.inflections do |inflect|
      inflect.irregular 'alumnus', 'alumnus'
+     inflect.irregular 'emeritus', 'emeritus'
     end
 
     if defined? Raven

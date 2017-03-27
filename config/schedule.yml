@@ -46,6 +46,11 @@ ResearchFellows:
   class: "Workers::Affiliations::ResearchFellows"
   queue: default
 
+FacultyEmeritus:
+  cron: "0 5 * * *"
+  class: "Workers::Affiliations::FacultyEmeritus"
+  queue: default
+
 ##############################
 ########## Groups ############
 ##############################

@@ -9,4 +9,5 @@ module Trogdir
   require './lib/trogdir/affiliations/trustee'
   require './lib/trogdir/affiliations/volunteer'
   require './lib/trogdir/affiliations/research_fellow'
+  require './lib/trogdir/affiliations/faculty_emeritus'
 end

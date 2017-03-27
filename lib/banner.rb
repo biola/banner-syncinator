@@ -11,4 +11,5 @@ module Banner
   require './lib/banner/affiliations/trustee'
   require './lib/banner/affiliations/volunteer'
   require './lib/banner/affiliations/research_fellow'
+  require './lib/banner/affiliations/faculty_emeritus'
 end

@@ -10,5 +10,6 @@ module Workers
     require './lib/workers/affiliations/trustees'
     require './lib/workers/affiliations/volunteers'
     require './lib/workers/affiliations/research_fellows'
+    require './lib/workers/affiliations/faculty_emeritus'
   end
 end
