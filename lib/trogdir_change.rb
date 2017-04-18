@@ -50,11 +50,13 @@ class TrogdirChange
   end
 
   def email_creation?
-    scope == 'email' && action == 'create' && modified_type  == 'university'
+    scope == 'email' && action == 'create' &&
+    modified_type  == 'university' && !modified['address'].to_s.empty?
   end
 
   def email_update?
-    scope == 'email' && action == 'update' && modified_type  == 'university'
+    scope == 'email' && action == 'update' &&
+    modified_type  == 'university'  && !modified['address'].to_s.empty?
   end
 
   def email_destroy?
