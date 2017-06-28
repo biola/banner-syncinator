@@ -29,9 +29,9 @@ module Workers
       if changes_processed
         HandleChanges.perform_async
       end
-    rescue StandardError
+    rescue StandardError => error
       Log.error response
-      raise
+      raise error
     end
 
     private
