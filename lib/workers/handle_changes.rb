@@ -17,7 +17,7 @@ module Workers
         break if response.parse.blank?
         raise TrogdirAPIError, response.parse['error'] unless response.success?
 
-        hashes << Array(response.parse)
+        hashes += Array(response.parse)
       end
 
       # Keep processing batches until we run out
