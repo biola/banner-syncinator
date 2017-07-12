@@ -127,7 +127,7 @@ module Trogdir
     def self.batch_request_people
       all_people = []
       page = 1
-      per_page = 1000
+      per_page = 100
 
       loop do
         # Weary::Request
