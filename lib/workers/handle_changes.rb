@@ -36,7 +36,7 @@ module Workers
         HandleChanges.perform_async
       end
     rescue StandardError => error
-      Log.error "Error in HandleChanges: #{response}"
+      Log.error "Error in HandleChanges: #{response.inspect}"
       raise error
     end
 
