@@ -12,12 +12,16 @@ module Workers
       hashes = []
       response = []
 
-      loop do
-        response = change_syncs.start(limit: 10).perform
-        break if response.parse.blank?
-        raise TrogdirAPIError, response.parse['error'] unless response.success?
+      begin
+        loop do
+          response = change_syncs.start(limit: 10).perform
+          break if response.parse.blank?
+          raise TrogdirAPIError, response.parse['error'] unless response.success?
 
-        hashes += Array(response.parse)
+          hashes += Array(response.parse)
+        end
+      rescue StandardError
+        Log.error "Error in HandleChanges: #{response.inspect}"
       end
 
       # Keep processing batches until we run out
@@ -35,9 +39,6 @@ module Workers
       if changes_processed
         HandleChanges.perform_async
       end
-    rescue StandardError => error
-      Log.error "Error in HandleChanges: #{response.inspect}"
-      raise error
     end
 
     private
