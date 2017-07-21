@@ -39,6 +39,9 @@ module Workers
       if changes_processed
         HandleChanges.perform_async
       end
+    rescue StandardError => error
+      Log.error "Error in HandleChanges: #{response}"
+      raise error
     end
 
     private
