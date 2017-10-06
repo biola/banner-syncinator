@@ -1,7 +1,7 @@
 module Banner
   class Employee < Banner::Person
-    SQL_ALL = "SELECT * FROM bpv_current_employees WHERE employee = 'Y'"
-    SQL_ONE = "SELECT * FROM bpv_current_employees WHERE employee = 'Y' AND id = :1"
+    SQL_ALL = "SELECT * FROM bpv_current_employees WHERE (employee = 'Y' OR faculty = 'Y') AND job_ct > 0"
+    SQL_ONE = "SELECT * FROM bpv_current_employees WHERE (employee = 'Y' OR faculty = 'Y') AND job_ct > 0 AND id = :1"
 
     ATTRS = ATTRS + [:pay_type, :department, :title, :office_phone, :job_ct, :full_time, :employee_type]
 
