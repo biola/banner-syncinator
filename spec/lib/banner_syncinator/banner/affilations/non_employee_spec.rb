@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Banner::NonEmployee do
   [Banner::AcceptedStudent, Banner::Alumnus, Banner::Faculty, Banner::Student,
-   Banner::ResearchFellow, Banner::Trustee, Banner::FacultyEmeritus].each do |klass|
+   Banner::ResearchFellow, Banner::Trustee, Banner::FacultyEmeritus,
+   Banner::Advisor].each do |klass|
     let(:params) { {} }
     let(:non_employee) { klass.new(params) }
     subject { non_employee }

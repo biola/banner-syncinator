@@ -3,6 +3,7 @@ module Banner
   require './lib/banner/person'
   require './lib/banner/mixins/non_employee'
   require './lib/banner/affiliations/accepted_student'
+  require './lib/banner/affiliations/advisor'
   require './lib/banner/affiliations/alumnus'
   require './lib/banner/affiliations/employee'
   require './lib/banner/affiliations/faculty'

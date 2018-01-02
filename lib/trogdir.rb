@@ -1,6 +1,7 @@
 module Trogdir
   require './lib/trogdir/person'
   require './lib/trogdir/affiliations/accepted_student'
+  require './lib/trogdir/affiliations/advisor'
   require './lib/trogdir/affiliations/alumnus'
   require './lib/trogdir/affiliations/employee'
   require './lib/trogdir/affiliations/faculty'

@@ -2,6 +2,7 @@ module Workers
   module Affiliations
     require './lib/workers/affiliations/base'
     require './lib/workers/affiliations/accepted_students'
+    require './lib/workers/affiliations/advisors'
     require './lib/workers/affiliations/alumni'
     require './lib/workers/affiliations/employees'
     require './lib/workers/affiliations/faculty'

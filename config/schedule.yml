@@ -6,6 +6,11 @@ AcceptedStudents:
   class: "Workers::Affiliations::AcceptedStudents"
   queue: default
 
+Advisors:
+  cron: "15 08-20 * * 1-5"
+  class: "Workers::Affiliations::Advisors"
+  queue: default
+
 Alumni:
   cron: "0 1 * * *"
   class: "Workers::Affiliations::Alumni"
