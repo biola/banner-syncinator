@@ -1,85 +1,87 @@
+---
+{}
 ##############################
 ####### Affiliations #########
 ##############################
-AcceptedStudents:
-  cron: "25 * * * *"
-  class: "Workers::Affiliations::AcceptedStudents"
-  queue: default
+#AcceptedStudents:
+#  cron: "25 * * * *"
+#  class: "Workers::Affiliations::AcceptedStudents"
+#  queue: default
 
-Advisors:
-  cron: "15 08-20 * * 1-5"
-  class: "Workers::Affiliations::Advisors"
-  queue: default
+#Advisors:
+#  cron: "15 08-20 * * 1-5"
+#  class: "Workers::Affiliations::Advisors"
+#  queue: default
 
-Alumni:
-  cron: "0 1 * * *"
-  class: "Workers::Affiliations::Alumni"
-  queue: default
+#Alumni:
+#  cron: "0 1 * * *"
+#  class: "Workers::Affiliations::Alumni"
+#  queue: default
 
-Employees:
-  cron: "10 08-20 * * 1-5"
-  class: "Workers::Affiliations::Employees"
-  queue: default
+#Employees:
+#  cron: "10 08-20 * * 1-5"
+#  class: "Workers::Affiliations::Employees"
+#  queue: default
 
-Faculty:
-  cron: "20 08-20 * * 1-5"
-  class: "Workers::Affiliations::Faculty"
-  queue: default
+#Faculty:
+#  cron: "20 08-20 * * 1-5"
+#  class: "Workers::Affiliations::Faculty"
+#  queue: default
 
-StudentWorkers:
-  cron: "40 08-20 * * 1-5"
-  class: "Workers::Affiliations::StudentWorkers"
-  queue: default
+#StudentWorkers:
+#  cron: "40 08-20 * * 1-5"
+#  class: "Workers::Affiliations::StudentWorkers"
+#  queue: default
 
-Students:
-  cron: "0 * * * *"
-  class: "Workers::Affiliations::Students"
-  queue: default
+#Students:
+#  cron: "0 * * * *"
+#  class: "Workers::Affiliations::Students"
+#  queue: default
 
-Trustees:
-  cron: "0 4 * * *"
-  class: "Workers::Affiliations::Trustees"
-  queue: default
+#Trustees:
+#  cron: "0 4 * * *"
+#  class: "Workers::Affiliations::Trustees"
+#  queue: default
 
-Volunteers:
-  cron: "0 5 * * *"
-  class: "Workers::Affiliations::Volunteers"
-  queue: default
+#Volunteers:
+#  cron: "0 5 * * *"
+#  class: "Workers::Affiliations::Volunteers"
+#  queue: default
 
-ResearchFellows:
-  cron: "0 5 * * *"
-  class: "Workers::Affiliations::ResearchFellows"
-  queue: default
+#ResearchFellows:
+#  cron: "0 5 * * *"
+#  class: "Workers::Affiliations::ResearchFellows"
+#  queue: default
 
-FacultyEmeritus:
-  cron: "0 5 * * *"
-  class: "Workers::Affiliations::FacultyEmeritus"
-  queue: default
+#FacultyEmeritus:
+#  cron: "0 5 * * *"
+#  class: "Workers::Affiliations::FacultyEmeritus"
+#  queue: default
 
-##############################
-########## Groups ############
-##############################
+###############################
+########### Groups ############
+###############################
 
-ClassLevel:
-  cron: "0 18 * * *"
-  class: "Workers::Groups::ClassLevel"
-  queue: default
+#ClassLevel:
+#  cron: "0 18 * * *"
+#  class: "Workers::Groups::ClassLevel"
+#  queue: default
 
-International:
-  cron: "0 19 * * *"
-  class: "Workers::Groups::International"
-  queue: default
+#International:
+#  cron: "0 19 * * *"
+#  class: "Workers::Groups::International"
+#  queue: default
 
-Residence:
-  cron: "0 20 * * 1"
-  class: "Workers::Groups::Residence"
-  queue: default
+#Residence:
+#  cron: "0 20 * * 1"
+#  class: "Workers::Groups::Residence"
+#  queue: default
 
-##############################
-########## Changes ###########
-##############################
+###############################
+########### Changes ###########
+###############################
 
-HandleChanges:
-  cron: "55 * * * *"
-  class: "Workers::HandleChanges"
-  queue: default
+#HandleChanges:
+#  cron: "55 * * * *"
+#  class: "Workers::HandleChanges"
+#  queue: default
