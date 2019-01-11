@@ -209,10 +209,10 @@ module Workers
     def with_logging(action:, &block)
       message = block.call
       Log.info message
-      Workers::ChangeFinish.new.perform(change.sync_log_id, action)
+      Workers::ChangeFinish.perform_async(change.sync_log_id, action)
     rescue StandardError => e
       error_message = e.backtrace[0..4].unshift(e.message).join(',')
-      Workers::ChangeError.new.perform(change.sync_log_id, error_message)
+      Workers::ChangeError.perform_async(change.sync_log_id, error_message)
       Raven.capture_exception(e) if defined? Raven
       raise e
     end
