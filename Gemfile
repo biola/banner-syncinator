@@ -4,8 +4,9 @@ gem 'actionpack', '~> 3.2.22' # apparently needed by exception_notification
 gem 'oj', '~> 2.8.1'
 gem 'rails_config', '~> 0.3.3'
 gem 'rake', '~> 10.2.2'
-gem 'sidekiq', '~> 3.5.0'
-gem 'sidekiq-cron', '~> 0.3.1'
+gem 'redis-namespace'
+gem 'sidekiq'
+gem 'sidekiq-cron'
 gem 'trogdir_api_client', '~> 0.7.0'
 # Until a new gem is released > 1.1.3
 # See: https://github.com/mwunsch/weary/pull/47
